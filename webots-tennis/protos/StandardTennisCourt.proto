@@ -1,0 +1,146 @@
+#VRML_SIM R2023b utf8
+
+PROTO StandardTennisCourt [
+  field SFVec3f    translation     0 0 0
+  field SFRotation rotation        0 1 0 0
+  field SFString   name            "standard tennis court"
+  field SFColor    courtColor      0.11 0.43 0.23
+  field SFColor    lineColor       1 1 1
+  field SFColor    groundColor     0.19 0.21 0.17
+  field SFFloat    lineWidth       0.05
+  field SFFloat    lineHeight      0.002
+  field SFFloat    courtThickness  0.04
+  field SFFloat    totalLength     36.57
+  field SFFloat    totalWidth      18.29
+  field SFBool     enablePhysics   FALSE
+]
+{
+  %<
+    const courtLength = 23.77;
+    const doublesWidth = 10.97;
+    const singlesWidth = 8.23;
+    const serviceLineDistance = 6.40;
+    const lineWidth = Math.max(fields.lineWidth.value, 0.01);
+    const lineHeight = Math.max(fields.lineHeight.value, 0.0005);
+    const courtThickness = Math.max(fields.courtThickness.value, 0.005);
+    const totalLength = Math.max(fields.totalLength.value, courtLength);
+    const totalWidth = Math.max(fields.totalWidth.value, doublesWidth);
+    const halfCourtLength = courtLength / 2;
+    const halfDoublesWidth = doublesWidth / 2;
+    const halfSinglesWidth = singlesWidth / 2;
+    const topZ = courtThickness / 2 + lineHeight / 2;
+    const serviceLineY = halfCourtLength - serviceLineDistance;
+    const centerMarkLength = 0.10;
+    const baselineInset = lineWidth / 2;
+    const centerMarkOffset = halfCourtLength - centerMarkLength / 2;
+  >%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    children [
+      Shape {
+        appearance PBRAppearance {
+          baseColor IS groundColor
+          roughness 1
+          metalness 0
+        }
+        geometry Box {
+          size %<= totalWidth >% %<= totalLength >% %<= courtThickness >%
+        }
+      }
+      Transform {
+        translation 0 0 %<= courtThickness / 2 + 0.0005 >%
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor IS courtColor
+              roughness 1
+              metalness 0
+            }
+            geometry Box {
+              size %<= doublesWidth >% %<= courtLength >% 0.001
+            }
+          }
+        ]
+      }
+      %< const horizontalSegments = [
+           [0, halfCourtLength - baselineInset, doublesWidth],
+           [0, -halfCourtLength + baselineInset, doublesWidth],
+           [0, serviceLineY, singlesWidth],
+           [0, -serviceLineY, singlesWidth]
+         ];
+         for (const [x, y, width] of horizontalSegments) { >%
+      Transform {
+        translation %<= x >% %<= y >% %<= topZ >%
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor IS lineColor
+              roughness 0.8
+              metalness 0
+            }
+            geometry Box {
+              size %<= width >% %<= lineWidth >% %<= lineHeight >%
+            }
+          }
+        ]
+      }
+      %< } >%
+      %< const verticalSegments = [
+           [-halfDoublesWidth + lineWidth / 2, 0, courtLength],
+           [halfDoublesWidth - lineWidth / 2, 0, courtLength],
+           [-halfSinglesWidth + lineWidth / 2, 0, courtLength],
+           [halfSinglesWidth - lineWidth / 2, 0, courtLength],
+           [0, 0, courtLength - 2 * serviceLineDistance]
+         ];
+         for (const [x, y, length] of verticalSegments) { >%
+      Transform {
+        translation %<= x >% %<= y >% %<= topZ >%
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor IS lineColor
+              roughness 0.8
+              metalness 0
+            }
+            geometry Box {
+              size %<= lineWidth >% %<= length >% %<= lineHeight >%
+            }
+          }
+        ]
+      }
+      %< } >%
+      %< const centerMarks = [
+           [0, centerMarkOffset],
+           [0, -centerMarkOffset]
+         ];
+         for (const [x, y] of centerMarks) { >%
+      Transform {
+        translation %<= x >% %<= y >% %<= topZ >%
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor IS lineColor
+              roughness 0.8
+              metalness 0
+            }
+            geometry Box {
+              size %<= lineWidth >% %<= centerMarkLength >% %<= lineHeight >%
+            }
+          }
+        ]
+      }
+      %< } >%
+    ]
+    boundingObject Box {
+      size %<= totalWidth >% %<= totalLength >% %<= courtThickness >%
+    }
+    %< if (fields.enablePhysics.value) { >%
+    physics Physics {
+      density -1
+      mass 5000
+    }
+    %< } >%
+  }
+}

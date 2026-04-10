@@ -1,0 +1,97 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "../protos/StandardTennisCourt.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/robots/bitcraze/crazyflie/protos/Crazyflie.proto"
+
+WorldInfo {
+  basicTimeStep 16
+}
+Viewpoint {
+  fieldOfView 1.2
+  orientation 0.16 -0.16 -1 4.7
+  position 0 -17 3
+}
+Background {
+  skyColor [
+    0.82 0.9 1
+  ]
+}
+DirectionalLight {
+  ambientIntensity 0.7
+  direction -0.3 -1 -0.2
+}
+StandardTennisCourt {
+}
+Pose {
+  children [
+    Pose {
+      translation 0 0.012 1.045
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.95 0.95 0.95
+            roughness 0.9
+            metalness 0
+          }
+          geometry Box {
+            size 10.97 0.03 0.05
+          }
+        }
+      ]
+    }
+    Pose {
+      translation 0 0.01 0.535
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.2 0.2 0.2
+            transparency 0.78
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 10.97 0.01 0.9
+          }
+        }
+      ]
+    }
+    Pose {
+      translation -5.535 0 0.535
+      rotation 1 0 0 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.88 0.88 0.88
+            roughness 0.7
+            metalness 0
+          }
+          geometry Cylinder {
+            height 1.07
+            radius 0.03
+          }
+        }
+      ]
+    }
+    Pose {
+      translation 5.535 0 0.535
+      rotation 1 0 0 0
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.88 0.88 0.88
+            roughness 0.7
+            metalness 0
+          }
+          geometry Cylinder {
+            height 1.07
+            radius 0.03
+          }
+        }
+      ]
+    }
+  ]
+}
+Crazyflie {
+  translation 0 -12 1.5
+  controller "<none>"
+}
