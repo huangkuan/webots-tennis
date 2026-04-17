@@ -7,6 +7,7 @@ PROTO StandardTennisCourt [
   field SFColor    courtColor      0.11 0.43 0.23
   field SFColor    lineColor       1 1 1
   field SFColor    groundColor     0.19 0.21 0.17
+  field SFString   contactMaterial "tennis court"
   field SFFloat    lineWidth       0.05
   field SFFloat    lineHeight      0.002
   field SFFloat    courtThickness  0.04
@@ -38,6 +39,7 @@ PROTO StandardTennisCourt [
     translation IS translation
     rotation IS rotation
     name IS name
+    contactMaterial IS contactMaterial
     children [
       Shape {
         appearance PBRAppearance {

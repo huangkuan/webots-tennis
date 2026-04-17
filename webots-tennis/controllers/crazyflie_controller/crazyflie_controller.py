@@ -73,7 +73,7 @@ if __name__ == '__main__':
     sock.settimeout(0.01)  # Non-blocking with short timeout
     
     latest_detection = None
-    ball_follow_enabled = False
+    #ball_follow_enabled = False
     print("✓ UDP socket set up for ball detector communication on port", BALL_DETECTOR_PORT)
     print("- Press B to enable/disable ball following")
     ball_follow_speed_x = 0.0
@@ -145,10 +145,8 @@ if __name__ == '__main__':
                     height_diff_desired = 0.1
                 elif key == ord('S'):
                     height_diff_desired = - 0.1
-                elif key == ord('B'):
-                    ball_follow_enabled = not ball_follow_enabled
-                    status = "ON" if ball_follow_enabled else "OFF"
-                    print(f"Ball following: {status}")
+                else:
+                    pass  # Ignore other keys
                 key = keyboard.getKey()
 
             height_desired += height_diff_desired * dt
@@ -162,7 +160,7 @@ if __name__ == '__main__':
                 pass  # No response or invalid data, keep previous detection
 
             # Ball following logic
-            if ball_follow_enabled and latest_detection is not None:
+            if latest_detection is not None:
                 # Check if ball was detected (has 'x' and 'y' fields)
                 if 'x' in latest_detection and 'y' in latest_detection:
                     # Camera frame is 1280x720 (from main_live_kuan.py source)

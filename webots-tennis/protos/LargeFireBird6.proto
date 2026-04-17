@@ -1,0 +1,51 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/robots/nex/protos/FireBird6.proto"
+
+PROTO LargeFireBird6 [
+  field SFVec3f    translation     0 0 0.125
+  field SFRotation rotation        0 0 1 0
+  field SFString   name            "Large Fire Bird 6"
+  field SFString   controller      "fire_bird_6_obstacle_avoidance"
+  field MFString   controllerArgs  []
+  field SFString   window          "<generic>"
+  field SFString   customData      ""
+  field SFBool     supervisor      FALSE
+  field SFBool     synchronization TRUE
+  field SFString   remoteControl   "<none>"
+]
+{
+  FireBird6 {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    controller IS controller
+    controllerArgs IS controllerArgs
+    window IS window
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+    remoteControl IS remoteControl
+    bodySlot [
+      Pose {
+        translation 0 0 -0.007
+        rotation 0 0 1 0.3927
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.92 0.56 0.56
+              roughness 0.5
+              metalness 0
+              transparency 0.1
+            }
+            geometry Cylinder {
+              height 0.23
+              radius 0.17
+              subdivision 16
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

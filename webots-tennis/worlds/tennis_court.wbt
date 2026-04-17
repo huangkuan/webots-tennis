@@ -2,9 +2,22 @@
 
 EXTERNPROTO "../protos/StandardTennisCourt.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/robots/bitcraze/crazyflie/protos/Crazyflie.proto"
+EXTERNPROTO "../protos/LargeFireBird6.proto"
+
 
 WorldInfo {
   basicTimeStep 16
+  contactProperties [
+    ContactProperties {
+      material1 "tennis court"
+      material2 "tennis ball"
+      coulombFriction [
+        2.8
+      ]
+      bounce 0.62
+      bounceVelocity 0.02
+    }
+  ]
 }
 Viewpoint {
   fieldOfView 1.2
@@ -93,5 +106,98 @@ Pose {
 }
 Crazyflie {
   translation 0 -12 1.5
-  controller "<none>"
+  controller "crazyflie_controller"
+}
+
+LargeFireBird6 {
+  translation 0 12 0.135
+  controller "firebird_ball_launcher"
+  supervisor TRUE
+}
+
+DEF TENNIS_BALL Solid {
+  translation 0 12 0.38
+  contactMaterial "tennis ball"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.81 0.92 0.22
+        roughness 0.95
+        metalness 0
+      }
+      geometry Sphere {
+        radius 0.0335
+      }
+    }
+  ]
+  name "tennis ball"
+  boundingObject Sphere {
+    radius 0.0335
+  }
+  physics Physics {
+    density -1
+    mass 0.058
+    damping Damping {
+      linear 0.02
+      angular 0.04
+    }
+  }
+}
+
+DEF TENNIS_BALL_RIGHT Solid {
+  translation 0 12 0.38
+  contactMaterial "tennis ball"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.81 0.92 0.22
+        roughness 0.95
+        metalness 0
+      }
+      geometry Sphere {
+        radius 0.0335
+      }
+    }
+  ]
+  name "tennis ball right"
+  boundingObject Sphere {
+    radius 0.0335
+  }
+  physics Physics {
+    density -1
+    mass 0.058
+    damping Damping {
+      linear 0.02
+      angular 0.04
+    }
+  }
+}
+
+DEF TENNIS_BALL_BACKSPIN Solid {
+  translation 0 12 0.38
+  contactMaterial "tennis ball"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.81 0.92 0.22
+        roughness 0.95
+        metalness 0
+      }
+      geometry Sphere {
+        radius 0.0335
+      }
+    }
+  ]
+  name "tennis ball backspin"
+  boundingObject Sphere {
+    radius 0.0335
+  }
+  physics Physics {
+    density -1
+    mass 0.058
+    damping Damping {
+      linear 0.02
+      angular 0.04
+    }
+  }
 }
